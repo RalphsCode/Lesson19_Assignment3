@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}
+    Survey Questions
+{% endblock %}
+
+{% block content %}
+<h1>Ralph's Survey Page</h1>
+<p>Question number: {{number}}</p>
+ 
+{{ survey['questions'][number-1]['question'] }}<br>
+<form action="/questions/{{number+1}}" method="post" name="question{{number}}">
+    <label>
+        <input type="radio" name="answer" value="{{ survey['questions'][number-1]['choices'][0] }}"> {{ survey['questions'][number-1]['choices'][0] }}
+      </label>
+      <label>
+        <input type="radio" name="answer" value="{{ survey['questions'][number-1]['choices'][1] }}"> {{ survey['questions'][number-1]['choices'][1] }}
+      </label>
+      <button type="submit">Continue</button>
+</form>
+
+{% endblock %}

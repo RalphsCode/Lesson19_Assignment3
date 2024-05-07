@@ -5,13 +5,9 @@
 
 {% block content %}
 <h1>Ralph's Survey Page</h1>
-<p>Satisfaction Survey:<br>
-{{satisfaction_survey['title']}}</p>
-<p>Instructions: {{satisfaction_survey['instructions']}}<br></p>
-<ol>
-    <li>
-{{ satisfaction_survey['questions'][0]['question'] }}<br>
-{{ satisfaction_survey['questions'][0]['choices'] }}
-    </li>
-</ol>
+<p>Survey:<br>
+{{survey['title']}}</p>
+<p>Instructions: {{survey['instructions']}}<br></p>
+<form action="/questions/1"><button>Start Survey</button></form>
+
 {% endblock %}

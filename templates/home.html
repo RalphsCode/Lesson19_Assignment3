@@ -5,6 +5,16 @@
 
 {% block content %}
 <h1>Ralph's Survey Page</h1>
+<p>Choose a survey:</p>
+<form action="/start">
+    <label>
+        <input type="radio" name="choice" value="satisfaction_survey"> Satisfaction Survey
+      </label><br>
+      <label>
+        <input type="radio" name="choice" value="personality_quiz"> Personality Quiz
+      </label><br>
+      <button type="submit">Start</button>
+</form>
 <p>Survey:<br>
 {{survey['title']}}</p>
 <p>Instructions: {{survey['instructions']}}<br></p>

@@ -1,3 +1,7 @@
+
+<!-- ***Questions Page***  where user passes through the survey questions.
+                    User moves to start page from here. -->
+
 {% extends 'base.html' %}
 {% block title %}
     Survey Questions
@@ -15,7 +19,12 @@
       <label>
         <input type="radio" name="answer" value="{{ survey['questions'][number-1]['choices'][1] }}"> {{ survey['questions'][number-1]['choices'][1] }}
       </label>
-      <button type="submit">Continue</button>
+      {% if survey['questions'][number-1]['allow_text'] == True %}
+      <br>
+      <label for="comment">Comment:</label><br>
+      <textarea id="comment" name="comment" rows="5" cols="30"></textarea>
+      {% endif %}
+      <br><button type="submit">Continue</button>
 </form>
 
 {% endblock %}

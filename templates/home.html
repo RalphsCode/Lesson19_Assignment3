@@ -1,3 +1,7 @@
+
+<!-- ***Home Page***  where user selects the survey to complete.
+                    User moves to start page from here. -->
+
 {% extends 'base.html' %}
 {% block title %}
     Survey Home Page
@@ -15,9 +19,5 @@
       </label><br>
       <button type="submit">Start</button>
 </form>
-<p>Survey:<br>
-{{survey['title']}}</p>
-<p>Instructions: {{survey['instructions']}}<br></p>
-<form action="/questions/1"><button>Start Survey</button></form>
 
 {% endblock %}

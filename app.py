@@ -18,27 +18,26 @@ def home():
 @app.route('/questions/<int:number>', methods=['GET', 'POST'])
 def questions(number):
 	global survey
+	global responses
+	# Check if its the fiirst question (which will not have any answer(s) yet.)
+	if number >=2:
+		responses.append(request.form.get('answer', 'None'))
+		if request.form.get('comment'):
+			responses.append(request.form.get('comment'))
+		session[survey.title] = responses
 	# Check if there are any more questions
 	if number <= len(survey.questions):
-		# Check if its the fiirst question (which will not have any answer(s) yet.)
-		if number >=2:
-			responses.append(request.form.get('answer', 'None'))
-			session['answers'] = responses
-		return render_template('questions.html', survey=survey, number=number)
-	
+		return render_template('questions.html', survey=survey, number=number)	
 	# If this was the last question:
 	else:
-		responses.append(request.form.get('answer', 'None'))
-		session['answers'] = responses
+		responses = []
 		return render_template('thanks.html')
 
 @app.route('/start')
 def start():  
 		global survey
 		choice = request.args.get('choice')
-		print('choice:', choice)
 		survey = getattr(surveys, choice)
-		print('survey:', survey)
 		return render_template('start.html', survey = survey)
 
 	

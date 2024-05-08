@@ -48,12 +48,24 @@ def questions(number):
 	the question page with the next question."""
 	global survey
 	global responses
-	# Check this is not the first question (which will not have any answer(s) yet.)
-	if number >=2:
-		responses.append(request.form.get('answer', 'None'))
-		if request.form.get('comment'):
-			responses.append(request.form.get('comment'))
-		session[survey.title] = responses
+
+	# Present the next question
+	return render_template('questions.html', survey=survey, number=number)	
+
+	
+@app.route('/answers/<int:number>', methods=['GET', 'POST'])
+def answers(number):
+	""" Answers Page
+	The HTML page saves the user answers to the Session.
+	Once a question is answered, clicking the button redirects
+	to the question page with the next question."""
+	global survey
+	global responses
+
+	responses.append(request.form.get('answer', 'Not answered'))
+	if request.form.get('comment'):
+		responses.append(request.form.get('comment'))
+	session[survey.title] = responses
 	if number <= len(survey.questions):
 		# If there are more questions, present the next one
 		return render_template('questions.html', survey=survey, number=number)	

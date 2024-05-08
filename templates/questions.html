@@ -13,7 +13,7 @@
  <!-- Present the survey question -->
 <p>{{ survey['questions'][number-1]['question'] }}</p>
 <!-- Display the answer options -->
-<form action="/questions/{{number+1}}" method="post" name="question{{number}}">
+<form action="/answers/{{number+1}}" method="post" name="question{{number}}">
     <!-- Loop through the answer options in Jinja -->
     {% for options in survey['questions'][number-1]['choices'] %}
       <label>

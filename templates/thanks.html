@@ -5,5 +5,8 @@
 
 {% block content %}
 <h1>Thank you for completing this survey.</h1>
+<p>Your responses:</p>
+<p>{{ session[survey_title] }} </p>
+<br>
 <a href="/home">Return to home page</a>
 {% endblock %}

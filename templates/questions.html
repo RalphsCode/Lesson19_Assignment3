@@ -1,6 +1,6 @@
 
 <!-- ***Questions Page***  where user passes through the survey questions.
-                    User moves to start page from here. -->
+                    . -->
 
 {% extends 'base.html' %}
 {% block title %}
@@ -9,22 +9,25 @@
 
 {% block content %}
 <h1>Ralph's Survey Page</h1>
-<p>Question number: {{number}}</p>
- 
-{{ survey['questions'][number-1]['question'] }}<br>
+<p>Question {{number}}:</p>
+ <!-- Present the survey question -->
+<p>{{ survey['questions'][number-1]['question'] }}</p>
+<!-- Display the answer options -->
 <form action="/questions/{{number+1}}" method="post" name="question{{number}}">
-    <label>
-        <input type="radio" name="answer" value="{{ survey['questions'][number-1]['choices'][0] }}"> {{ survey['questions'][number-1]['choices'][0] }}
-      </label>
+    <!-- Loop through the answer options in Jinja -->
+    {% for options in survey['questions'][number-1]['choices'] %}
       <label>
-        <input type="radio" name="answer" value="{{ survey['questions'][number-1]['choices'][1] }}"> {{ survey['questions'][number-1]['choices'][1] }}
+      <input type="radio" name="answer" value="{{ survey['questions'][number-1]['choices'][loop.index - 1] }}"> {{ survey['questions'][number-1]['choices'][loop.index -1] }}
       </label>
-      {% if survey['questions'][number-1]['allow_text'] == True %}
-      <br>
-      <label for="comment">Comment:</label><br>
-      <textarea id="comment" name="comment" rows="5" cols="30"></textarea>
-      {% endif %}
-      <br><button type="submit">Continue</button>
+    {% endfor %}
+    <!-- If there is an option to add text, present a textarea -->
+    {% if survey['questions'][number-1]['allow_text'] == True %}
+    <br><br>
+    <label for="comment">Comment:</label><br>
+    <textarea id="comment" name="comment" rows="5" cols="30"></textarea>
+    {% endif %}
+    <br><br>
+    <button type="submit">Continue</button>
+    <!-- User moves on to /questions/NEXT_QUESTION_NUMBER -->
 </form>
-
 {% endblock %}

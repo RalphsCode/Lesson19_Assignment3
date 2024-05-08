@@ -1,6 +1,7 @@
 
 <!-- ***Home Page***  where user selects the survey to complete.
-                    User moves to start page from here. -->
+                    Once a survey has been selected, and the start button clicked;
+                    the user moves to start survey page. -->
 
 {% extends 'base.html' %}
 {% block title %}
@@ -11,12 +12,12 @@
 <h1>Ralph's Survey Page</h1>
 <p>Choose a survey:</p>
 <form action="/start">
+  {% for survey in survey_options %}
+  <!-- Loop through and present the available survey options located in surveys.py -->
     <label>
-        <input type="radio" name="choice" value="satisfaction_survey"> Satisfaction Survey
+        <input type="radio" name="choice" value="{{survey}}"> {{survey}}
       </label><br>
-      <label>
-        <input type="radio" name="choice" value="personality_quiz"> Personality Quiz
-      </label><br>
+  {% endfor %}    
       <button type="submit">Start</button>
 </form>
 

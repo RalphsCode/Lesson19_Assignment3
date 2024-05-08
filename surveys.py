@@ -48,7 +48,24 @@ personality_quiz = Survey(
     ]
 )
 
+python_quiz = Survey(
+    "Ralph's Python Test",
+    "Let's check your Python knowledge",
+    [
+        Question("When was Python created?",
+                 ["1991", "2001", "2011"]),
+        Question("Who created Python?",
+                 ['Paul "Python" Petterson', 'Guido van Rossum', 'Jeff Bezos']),
+        Question("Is Python named after the python snake?"),
+        Question("Does Python run on the server?"),
+        Question("Which is better, Python, JavaScript, or another language, and why?",
+                 ['Python', 'JavaScript', 'other language'],
+                 allow_text=True)
+    ]
+)
+
 surveys = {
     "satisfaction": satisfaction_survey,
     "personality": personality_quiz,
+    "python": python_quiz,
 }

@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block content %}
+<p>{{ survey['title'] }}
 <p>Question {{number}}:</p>
  <!-- Present the survey question -->
 <p>{{ survey['questions'][number-1]['question'] }}</p>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
 </head>
+<body>
 <h1>Ralph's Survey Site</h1>
 {% for msg in get_flashed_messages() %}
 <p>{{msg}}</p>
@@ -12,5 +13,5 @@
 
 {% block content %}
 {% endblock %}
-
+</body>
 </html>

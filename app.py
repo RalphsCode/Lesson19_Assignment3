@@ -1,11 +1,11 @@
-from flask import Flask, request, render_template, redirect, flash, session, url_for
+from flask import Flask, request, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 import surveys
 
 # Globally scoped variables
-responses = []
-survey = {}
-number_check = 1
+responses = []		# stores the survey answers
+survey = {}			# stores the selected survey object
+number_check = 1  	# used to ensure users don't try to jump ahead
 
 app = Flask(__name__)
 
@@ -28,20 +28,14 @@ def start():
 		Sends users to the questions page."""
 		global survey
 		# Find out which survey was chosen
-		survey_choice = request.args.get('choice')
-		if survey_choice == 'python':
-			survey_choice = 'python_quiz'
-		elif survey_choice == 'personality':
-			survey_choice = 'personality_quiz'
-		else:
-			survey_choice = 'satisfaction_survey'
-		# set the appropriate survey object into global scope
-		survey = getattr(surveys, survey_choice)
+		user_choice = request.args.get('choice', 'satisfaction')
+		# set the appropriate survey object into global scope		
+		survey = surveys.surveys[user_choice]
 		# Call the start survey page
 		return render_template('start.html', survey = survey)
 
 
-@app.route('/questions/<int:number>', methods=['GET'])
+@app.route('/questions/<int:number>')
 def questions(number):
 	""" Questions Page
 	presents each question and answer options on unique pages.
@@ -52,6 +46,7 @@ def questions(number):
 	global responses
 	global number_check
 
+	# Check that the user is not jumping ahead on the question pages
 	if number != number_check:
 		flash('You are not able to access that page directly. Here is the next question for you...')
 		number = number_check

@@ -1,14 +1,16 @@
-from flask import Flask, request, render_template, redirect, flash, session
+from flask import Flask, request, render_template, redirect, flash, session, url_for
 from flask_debugtoolbar import DebugToolbarExtension
 import surveys
 
 # Globally scoped variables
 responses = []
 survey = {}
+number_check = 1
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = "Ralph_01234"
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
 @app.route('/home')
@@ -39,7 +41,7 @@ def start():
 		return render_template('start.html', survey = survey)
 
 
-@app.route('/questions/<int:number>', methods=['GET', 'POST'])
+@app.route('/questions/<int:number>', methods=['GET'])
 def questions(number):
 	""" Questions Page
 	presents each question and answer options on unique pages.
@@ -48,9 +50,13 @@ def questions(number):
 	the question page with the next question."""
 	global survey
 	global responses
+	global number_check
 
+	if number != number_check:
+		flash('You are not able to access that page directly. Here is the next question for you...')
+		number = number_check
 	# Present the next question
-	return render_template('questions.html', survey=survey, number=number)	
+	return render_template('/questions.html', survey=survey, number=number)
 
 	
 @app.route('/answers/<int:number>', methods=['GET', 'POST'])
@@ -61,15 +67,19 @@ def answers(number):
 	to the question page with the next question."""
 	global survey
 	global responses
+	global number_check
+
+	number_check += 1
 
 	responses.append(request.form.get('answer', 'Not answered'))
 	if request.form.get('comment'):
-		responses.append(request.form.get('comment'))
+		responses.append(request.form.get('comment', 'No Comment'))
 	session[survey.title] = responses
-	if number <= len(survey.questions):
+	if number < len(survey.questions):
 		# If there are more questions, present the next one
-		return render_template('questions.html', survey=survey, number=number)	
+		return redirect(f'/questions/{number +1}')	
 	else:
 		# If this was the last question, reset the answers list, and go to thank you page:
 		responses = []
+		number_check = 1
 		return render_template('thanks.html', survey_title = survey.title)

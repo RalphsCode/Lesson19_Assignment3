@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block content %}
-<h1>Ralph's Survey Page</h1>
 <p>Choose a survey:</p>
 <form action="/start">
   {% for survey in survey_options %}
@@ -18,6 +17,7 @@
         <input type="radio" name="choice" value="{{survey}}"> {{survey}}
       </label><br>
   {% endfor %}    
+      <br>
       <button type="submit">Start</button>
 </form>
 
